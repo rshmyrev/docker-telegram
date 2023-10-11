@@ -1,0 +1,23 @@
+version: "3.9"
+
+name: telegram
+services:
+  telegram:
+    image: rshmyrev/telegram
+    build: .
+    hostname: debian
+    environment:
+      - DISPLAY=unix$DISPLAY # X11
+      - PULSE_SERVER=unix:$XDG_RUNTIME_DIR/pulse/native # PulseAudio
+    devices:
+      - /dev/dri
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:ro # X11
+      - $XDG_RUNTIME_DIR/pulse:$XDG_RUNTIME_DIR/pulse:ro # PulseAudio
+      - /etc/localtime:/etc/localtime:ro # timezone (optional)
+      - cache:/cache
+      - $HOME/.local/share/TelegramDesktop:/data
+      - $HOME/Downloads:/downloads
+
+volumes:
+  cache:
